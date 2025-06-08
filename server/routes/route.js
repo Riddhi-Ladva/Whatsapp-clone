@@ -1,0 +1,17 @@
+import express from 'express';
+import { addUser,getUsers } from '../controller/usercontoller.js';
+const route=express.Router();
+import { newConversation,getConversation } from '../controller/convercontroller.js';
+import { getMessage, newMessage } from '../controller/messagecontroller.js';
+import { uploadFile } from '../controller/imagecontroller.js';
+import upload from '../utils/upload.js';
+import { getImage } from '../controller/imagecontroller.js';
+route.post('/add',addUser);
+route.get('/users',getUsers);
+route.post('/conversation/add',newConversation);
+route.post('/conversation/get',getConversation);
+route.post('/message/add',newMessage);
+route.get('/message/get/:id',getMessage);
+route.post('/file/upload',upload.single("file"), uploadFile);
+route.get('/file/:filename',getImage);
+export default route;
