@@ -6,7 +6,7 @@ import AccountProvider from './components/context/Accountprovider';
 
 function App() {
 
-  const clientid='1025803383046-1hj60fomnkrjcu3m76qsiklqq93form5.apps.googleusercontent.com';
+  const clientid='';
 
   return (
     <GoogleOAuthProvider clientId={clientid}>
