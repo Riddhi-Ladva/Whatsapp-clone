@@ -1,5 +1,5 @@
 import { Box, styled, Typography } from "@mui/material";
-import emptychat from "../constants/emptychat.png";
+import emptychat from "../constants/empty.png";
 
 const Container = styled(Box)`
   display: flex;
@@ -7,6 +7,7 @@ const Container = styled(Box)`
   justify-content: center;
   align-items: center;
   height: 100%;
+  width:995px;
   background-color: #f0f2f5;
   text-align: center;
   padding: 32px;

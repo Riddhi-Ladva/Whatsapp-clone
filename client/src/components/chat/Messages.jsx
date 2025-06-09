@@ -5,6 +5,7 @@ import { AccountContext } from "../context/Accountprovider";
 import { getMessage, newMessage } from '../../service/api';
 import Message from "./Message";
 
+
 const Wrapper = styled(Box)`
   background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
   background-size: 50%;
@@ -22,13 +23,26 @@ const Container = styled(Box)`
 `;
 
 const Messages = ({ person, Conversation }) => {
-  const { account } = useContext(AccountContext);
+  const { account,socket,newMessageflag, setNewMessage } = useContext(AccountContext);
   const [value, setValue] = useState('');
   const [messages, setMessages] = useState([]);
-  const [newMessageflag, setNewMessage] = useState(false);
   const [file, setFile] = useState(null);
   const [image, setImage] = useState(null);
+  const [incoming,setIncoming]=useState(null);
 
+  useEffect(()=>{
+    socket.current.on('getMessage',data=>{
+      setIncoming({
+        ...data,
+        createdAt:Date.now()
+      })
+    })
+  },[])
+
+  useEffect(()=>{
+    incoming && Conversation?.members?.includes(incoming.senderId)&&
+    setMessages(prev=>[...prev,incoming])
+  },[incoming,Conversation])
   useEffect(() => {
     const getMessageDetails = async () => {
       if (!Conversation?._id) return;
@@ -49,7 +63,7 @@ const Messages = ({ person, Conversation }) => {
         type: file ? 'file' : 'text',
         text: file ? image : value
       };
-
+socket.current.emit('sendMessage',message);
       await newMessage(message);
       setValue('');
       setFile(null);
